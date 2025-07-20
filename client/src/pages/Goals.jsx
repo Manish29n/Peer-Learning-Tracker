@@ -13,7 +13,7 @@ function Goals() {
   useEffect(() => {
     const fetchGoals = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/goals', {
+        const response = await axios.get('${import.meta.env.VITE_API_URL}/api/goals', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setGoals(response.data);
@@ -28,7 +28,7 @@ function Goals() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/goals',
+        '${import.meta.env.VITE_API_URL}/api/goals',
         { title, progress, deadline },
         { headers: { Authorization: `Bearer ${token}` } }
       );

@@ -11,7 +11,7 @@ function Groups() {
   useEffect(() => {
     const fetchGroups = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/groups', {
+        const response = await axios.get('${import.meta.env.VITE_API_URL}/api/groups', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setGroups(response.data);

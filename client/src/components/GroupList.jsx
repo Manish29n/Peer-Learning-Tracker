@@ -7,7 +7,7 @@ function GroupList({ groups, onJoin }) {
 
   const handleJoin = async (groupId) => {
     try {
-      await axios.post(`http://localhost:5000/api/groups/join/${groupId}`, {}, {
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/groups/join/${groupId}`, {}, {
         headers: { Authorization: `Bearer ${token}` },
       });
       onJoin(groupId);
