@@ -76,8 +76,10 @@ git clone <repo-url>
 - `PUT /api/goals/:id/complete`: Mark a goal as completed.
 
 ## Screenshots
-- Auth Page (Mobile): ![Auth Mobile](screenshots/auth-mobile.png)
-- Auth Page (Desktop): ![Auth Desktop](screenshots/auth-desktop.png)
+- Auth Register Page (Mobile): ![Auth Mobile](screenshots/auth-register-mobile.png)
+- Auth Register Page (Desktop): ![Auth Desktop](screenshots/auth-register-desktop.png)
+- Auth Login Page (Mobile): ![Auth Mobile](screenshots/auth-login-mobile.png)
+- Auth Login Page (Desktop): ![Auth Desktop](screenshots/auth-login-desktop.png)
 - Home Page (Mobile): ![Home Mobile](screenshots/home-mobile.png)
 - Home Page (Desktop): ![Home Desktop](screenshots/home-desktop.png)
 - Groups Page (Mobile): ![Groups Mobile](screenshots/groups-mobile.png)
