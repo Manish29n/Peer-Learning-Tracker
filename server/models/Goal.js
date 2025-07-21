@@ -5,6 +5,7 @@ const goalSchema = new mongoose.Schema({
   title: { type: String, required: true },
   progress: { type: Number, required: true, min: 0, max: 100 },
   deadline: { type: Date, required: true },
+  completed: { type: Boolean, default: false },
 });
 
 module.exports = mongoose.model('Goal', goalSchema);
