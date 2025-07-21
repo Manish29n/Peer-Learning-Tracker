@@ -12,36 +12,49 @@ function Home() {
   const [goals, setGoals] = useState([]);
   const { token, user } = useContext(UserContext);
 
+  const fetchData = async () => {
+    try {
+      const groupsResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/groups`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setGroups(groupsResponse.data);
+
+      const userResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/users/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setMyGroups(userResponse.data.groups);
+
+      const goalsResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/goals`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setGoals(goalsResponse.data);
+    } catch (error) {
+      toast.error('Error fetching data');
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch all groups
-        const groupsResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/groups`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setGroups(groupsResponse.data);
-
-        // Fetch user's groups
-        const userResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/users/me`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setMyGroups(userResponse.data.groups);
-
-        // Fetch goals
-        const goalsResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/goals`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setGoals(goalsResponse.data);
-      } catch (error) {
-        toast.error('Error fetching data');
-      }
-    };
     if (token) fetchData();
   }, [token]);
 
   const handleJoin = (groupId) => {
     setGroups(groups.filter(group => group._id !== groupId));
     setMyGroups([...myGroups, groups.find(group => group._id === groupId)]);
+    fetchData(); // Refresh data
+  };
+
+  const handleLeave = (groupId) => {
+    setMyGroups(myGroups.filter(group => group._id !== groupId));
+    setGroups([...groups, myGroups.find(group => group._id === groupId)]);
+    fetchData(); // Refresh data
+  };
+
+  const handleDeleteGoal = (goalId) => {
+    setGoals(goals.filter(goal => goal._id !== goalId));
+  };
+
+  const handleCompleteGoal = (updatedGoal) => {
+    setGoals(goals.map(goal => goal._id === updatedGoal._id ? updatedGoal : goal));
   };
 
   return (
@@ -65,7 +78,13 @@ function Home() {
       {goals.length > 0 ? (
         <div className="grid gap-4 md:grid-cols-2 mb-6">
           {goals.map(goal => (
-            <GoalCard key={goal._id} goal={goal} />
+            <GoalCard
+              key={goal._id}
+              goal={goal}
+              canEdit={false}
+              onDelete={handleDeleteGoal}
+              onComplete={handleCompleteGoal}
+            />
           ))}
         </div>
       ) : (

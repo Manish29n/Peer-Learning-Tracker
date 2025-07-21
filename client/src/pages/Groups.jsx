@@ -10,32 +10,35 @@ function Groups() {
   const [groupName, setGroupName] = useState('');
   const { token, user } = useContext(UserContext);
 
+  const fetchGroups = async () => {
+    try {
+      const groupsResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/groups`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setGroups(groupsResponse.data);
+      const userResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/users/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setMyGroups(userResponse.data.groups);
+    } catch (error) {
+      toast.error('Error fetching groups');
+    }
+  };
+
   useEffect(() => {
-    const fetchGroups = async () => {
-      try {
-        const groupsResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/groups`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setGroups(groupsResponse.data);
-        const userResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/users/me`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setMyGroups(userResponse.data.groups);
-      } catch (error) {
-        toast.error('Error fetching groups');
-      }
-    };
     if (token) fetchGroups();
   }, [token]);
 
   const handleJoin = (groupId) => {
     setGroups(groups.filter(group => group._id !== groupId));
     setMyGroups([...myGroups, groups.find(group => group._id === groupId)]);
+    fetchGroups(); // Refresh data
   };
 
   const handleLeave = (groupId) => {
     setMyGroups(myGroups.filter(group => group._id !== groupId));
     setGroups([...groups, myGroups.find(group => group._id === groupId)]);
+    fetchGroups(); // Refresh data
   };
 
   const handleCreateGroup = async (e) => {
@@ -49,6 +52,7 @@ function Groups() {
       setMyGroups([...myGroups, response.data]);
       setGroupName('');
       toast.success('Group created successfully!');
+      fetchGroups(); // Refresh data
     } catch (error) {
       toast.error(error.response?.data?.message || 'Error creating group');
     }

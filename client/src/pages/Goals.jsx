@@ -11,17 +11,18 @@ function Goals() {
   const [deadline, setDeadline] = useState('');
   const { token } = useContext(UserContext);
 
+  const fetchGoals = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/goals`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setGoals(response.data);
+    } catch (error) {
+      toast.error('Error fetching goals');
+    }
+  };
+
   useEffect(() => {
-    const fetchGoals = async () => {
-      try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/goals`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setGoals(response.data);
-      } catch (error) {
-        toast.error('Error fetching goals');
-      }
-    };
     if (token) fetchGoals();
   }, [token]);
 
@@ -38,6 +39,7 @@ function Goals() {
       setProgress(0);
       setDeadline('');
       toast.success('Goal created successfully!');
+      fetchGoals(); // Refresh data
     } catch (error) {
       toast.error(error.response?.data?.message || 'Error creating goal');
     }
@@ -45,6 +47,17 @@ function Goals() {
 
   const handleEditGoal = (updatedGoal) => {
     setGoals(goals.map(g => g._id === updatedGoal._id ? updatedGoal : g));
+    fetchGoals(); // Refresh data
+  };
+
+  const handleDeleteGoal = (goalId) => {
+    setGoals(goals.filter(goal => goal._id !== goalId));
+    fetchGoals(); // Refresh data
+  };
+
+  const handleCompleteGoal = (updatedGoal) => {
+    setGoals(goals.map(goal => goal._id === updatedGoal._id ? updatedGoal : goal));
+    fetchGoals(); // Refresh data
   };
 
   return (
@@ -92,7 +105,13 @@ function Goals() {
       </form>
       <div className="grid gap-4">
         {goals.map(goal => (
-          <GoalCard key={goal._id} goal={goal} onEdit={handleEditGoal} />
+          <GoalCard
+            key={goal._id}
+            goal={goal}
+            onEdit={handleEditGoal}
+            onDelete={handleDeleteGoal}
+            onComplete={handleCompleteGoal}
+          />
         ))}
       </div>
     </div>

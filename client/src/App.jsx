@@ -20,20 +20,45 @@ function App() {
           <div className="flex gap-4">
             {token ? (
               <>
-                <Link to="/home" className="hover:text-blue-200 transition-colors duration-200">Home</Link>
-                <Link to="/groups" className="hover:text-blue-200 transition-colors duration-200">Groups</Link>
-                <Link to="/goals" className="hover:text-blue-200 transition-colors duration-200">Goals</Link>
+                <Link
+                  to="/home"
+                  className="bg-blue-600 border border-white text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors duration-200"
+                >
+                  Home
+                </Link>
+                <Link
+                  to="/groups"
+                  className="bg-blue-600 border border-white text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors duration-200"
+                >
+                  Groups
+                </Link>
+                <Link
+                  to="/goals"
+                  className="bg-blue-600 border border-white text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors duration-200"
+                >
+                  Goals
+                </Link>
                 <button
                   onClick={() => { logout(); navigate('/'); }}
-                  className="bg-red-600 px-4 py-2 rounded hover:bg-red-700 transition-colors duration-200"
+                  className="bg-red-600 border border-white text-white px-4 py-2 rounded hover:bg-red-700 transition-colors duration-200"
                 >
                   Logout
                 </button>
               </>
             ) : (
               <>
-                <Link to="/login" className="hover:text-blue-200 transition-colors duration-200">Login</Link>
-                <Link to="/register" className="hover:text-blue-200 transition-colors duration-200">Register</Link>
+                <Link
+                  to="/login"
+                  className="bg-blue-600 border border-white text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors duration-200"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="bg-blue-600 border border-white text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors duration-200"
+                >
+                  Register
+                </Link>
               </>
             )}
           </div>
