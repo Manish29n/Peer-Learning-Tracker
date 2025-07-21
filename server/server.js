@@ -15,6 +15,7 @@ app.use(express.json());
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/groups', require('./routes/groups'));
 app.use('/api/goals', require('./routes/goals'));
+app.use('/api/users', require('./routes/users'));
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI, {

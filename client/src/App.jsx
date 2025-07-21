@@ -1,24 +1,40 @@
-import { Outlet, Link } from 'react-router-dom';
-import { useContext } from 'react';
+import { Outlet, Link, useNavigate } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
 import { UserContext } from './context/UserContext';
 
 function App() {
-  const { user, logout } = useContext(UserContext);
+  const { user, token, logout } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!token) navigate('/');
+  }, [token, navigate]);
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <nav className="bg-blue-600 text-white p-4">
-        <div className="container mx-auto flex justify-between">
-          <Link to="/" className="font-bold">Peer Learning Tracker</Link>
-          <div>
-            {user ? (
+      <nav className="bg-blue-600 text-white p-4 shadow-md">
+        <div className="container mx-auto flex justify-between items-center">
+          <Link to={token ? "/home" : "/"} className="font-bold text-xl hover:text-blue-200 transition-colors duration-200">
+            Peer Learning Tracker
+          </Link>
+          <div className="flex gap-4">
+            {token ? (
               <>
-                <Link to="/groups" className="mr-4">Groups</Link>
-                <Link to="/goals" className="mr-4">Goals</Link>
-                <button onClick={logout}>Logout</button>
+                <Link to="/home" className="hover:text-blue-200 transition-colors duration-200">Home</Link>
+                <Link to="/groups" className="hover:text-blue-200 transition-colors duration-200">Groups</Link>
+                <Link to="/goals" className="hover:text-blue-200 transition-colors duration-200">Goals</Link>
+                <button
+                  onClick={() => { logout(); navigate('/'); }}
+                  className="bg-red-600 px-4 py-2 rounded hover:bg-red-700 transition-colors duration-200"
+                >
+                  Logout
+                </button>
               </>
             ) : (
-              <Link to="/login">Login</Link>
+              <>
+                <Link to="/login" className="hover:text-blue-200 transition-colors duration-200">Login</Link>
+                <Link to="/register" className="hover:text-blue-200 transition-colors duration-200">Register</Link>
+              </>
             )}
           </div>
         </div>
