@@ -76,4 +76,11 @@ git clone <repo-url>
 - `PUT /api/goals/:id/complete`: Mark a goal as completed.
 
 ## Screenshots
-- Located in the `/screenshots` folder.
+- Auth Page (Mobile): ![Auth Mobile](screenshots/auth-mobile.png)
+- Auth Page (Desktop): ![Auth Desktop](screenshots/auth-desktop.png)
+- Home Page (Mobile): ![Home Mobile](screenshots/home-mobile.png)
+- Home Page (Desktop): ![Home Desktop](screenshots/home-desktop.png)
+- Groups Page (Mobile): ![Groups Mobile](screenshots/groups-mobile.png)
+- Groups Page (Desktop): ![Groups Desktop](screenshots/groups-desktop.png)
+- Goals Page (Mobile): ![Goals Mobile](screenshots/goals-mobile.png)
+- Goals Page (Desktop): ![Goals Desktop](screenshots/goals-desktop.png)
